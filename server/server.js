@@ -19,15 +19,15 @@ io.on('connection', (socket)=>{ //individual socket connected through js script 
         console.log('User disconnected');
     })
     
-    socket.emit('newMessage', {   //send from server to client
-        from:"naty.com",
-        text: "whats up",
-        createdAt:1321
-    });
+    //socket is a single connection, emit is every connection
+    socket.on('createMessage',(message)=>{
 
-    socket.on('createMessage',(createMessage)=>{
-
-        console.log('createMessage', createMessage);
+        console.log('createMessage', message);
+        io.emit('newMessage', {
+            from: message.from,
+            text: message.from,
+            createdAt: new Date().getTime()
+        })
     })
 })   //register an event listener
 
