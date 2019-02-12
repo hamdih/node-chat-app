@@ -14,7 +14,20 @@ app.use(express.static(publicPath));
 
 io.on('connection', (socket)=>{ //individual socket connected through js script in index
     console.log('New user connected');
+    //from admin - welcome
+    socket.emit('newMessage',{
+        from: "Admin",
+        text:"Welcome to chat app",
+        createdAt: new Date().getTime()
+
+    }) 
     
+    socket.broadcast.emit('newMessage',{
+        from: "Admin",
+        text: "New user entered",
+        createdAt: new Date().getTime()
+
+    })
     socket.on('disconnect', ()=>{
         console.log('User disconnected');
     })
@@ -28,9 +41,13 @@ io.on('connection', (socket)=>{ //individual socket connected through js script 
             text: message.from,
             createdAt: new Date().getTime()
         })
-    })
+        // socket.broadcast.emit('newMessage',{
+        //     from: message.from,
+        //     text: message.text,
+        //     createdAt: new Date().getTime
+        // });
 })   //register an event listener
-
+})
 
 
 
